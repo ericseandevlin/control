@@ -85,23 +85,32 @@ REQUIREMENTS: (--o-- open) (--x-- complete)
  - For apps using relational data, you should try to incorporate an ERD (https://goo.gl/6VyXJ5) which describes the     relationships between models. This can be both a guide to creating the app, as well as a way to keep you on task.
  - A github repo
  - A link to the live site
- - 
+
+
+-------
+
 
 PROGRAMS / FRAMEWORKS USED
  - Foundation or Bootstrap
  - Mean Stack
 
 
+-------
+
+
 CONCEPT / LAYOUT
  - visually will be in the vein of doomsday survival blogs:http://www.shtfplan.com/   or   http://www.thesurvivalistblog.net/    or    https://www.doomsdayprep.com/
 
  - the concept is only give users choices that will allow them to experience the unfairness and desperation that leads to isolation and violence. Similar to how depression quest allows the player to understand the limitations caused bydepression experientially: http://www.depressionquest.com/
+ 
  - PLAYERS: you are trying to protect yourself and survive.
  - OBJECTIVE: stay alive.
+  
+USER STORIES
  - all users begin with 100 points.
  - users can buy guns with their points.
  - all guns begin with initial set prices at the gun store.
- - there will only be a limited amount of guns at the gun store.
+ - there will initially only be a limited amount of guns at the gun store (around 20-30).
  - if there are no other guns at the gun store players can buy directly from other players.
  - players can buy or sell guns for any number of points.
  - players can use their guns to 'damage' other players and steal their points.
@@ -109,13 +118,31 @@ CONCEPT / LAYOUT
  - a dead player's guns return to the gun store for sale at their original prices.
 
  
+ -------
+ 
+ 
 MODELS
  - users
+	-  username: string
+	-  password_hash: string
+	-  profile_img: string
+	-  points: number
+	-  guns: foreign key
+
  - guns
+ 	- gun_img: string
+ 	- init_value: number
+ 	- given_value: number
+ 	- damage: number
+
+
+-------
 
 
 PAGES
 
+
+-------
 
 
 BUG TRACK
