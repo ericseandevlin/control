@@ -127,7 +127,7 @@ MODELS
 	-  password_hash: string
 	-  profile_img: string
 	-  points: number
-	-  guns: foreign key
+	-  guns: foreign key ONE TO ONE	
 
  - guns
  	- gun_img: string
