@@ -14,7 +14,7 @@ LINKS
 	- Heroku
 		- 
 	- Trello link
-		- 
+		- https://trello.com/b/PGN4AQg9/control
 	- Wireframes
 		- https://drive.google.com/open?id=0B_SVqrLJRiUgSXRBTzF4Ni1GSWM
 
