@@ -91,7 +91,9 @@ REQUIREMENTS: (--o-- open) (--x-- complete)
 
 
 PROGRAMS / FRAMEWORKS USED
- - Foundation or Bootstrap
+ - Foundation
+ 	- main page layout (need to create)
+ 	- gun store layout http://foundation.zurb.com/templates-previews-sites-f5/store.html
  - Mean Stack
 
 
