@@ -1,11 +1,19 @@
 body {
   background-color: rgb(196, 196, 196);
+  display: inline-block;
 }
 
 .user-img {
   height: 100px;
   width: 100px;
   display: inline-block;
+}
+
+#users-container {
+  display: inline-block;
+  width: 40%;
+  background-color: rgba(0, 0, 0, 0.2);
+  vertical-align: top;
 }
 
 .user-info-container {
@@ -24,6 +32,13 @@ body {
   height: 100px;
   width: 100px;
   display: inline-block;
+}
+
+#guns-container {
+  display: inline-block;
+  width: 40%;
+  background-color: rgba(0, 0, 0, 0.2);
+  vertical-align: top;
 }
 
 .gun-info-container {

@@ -16,7 +16,8 @@ var gun1 = new Gun({
   init_value: 10,
   given_value: null,
   damage: 2,
-  user: null
+  forSale: true,
+  owner: null
 });
 gun1.save(function(err) {
 	if(err) return handleError(err);
@@ -29,7 +30,8 @@ var gun2 = new Gun({
   init_value: 10,
   given_value: null,
   damage: 3,
-  user: null
+  forSale: true,
+  owner: null
 });
 gun2.save(function(err) {
 	if(err) return handleError(err);
@@ -43,7 +45,8 @@ var gun3 = new Gun({
   init_value: 50,
   given_value: null,
   damage: 15,
-  user: null
+  forSale: true,
+  owner: null
 });
 gun3.save(function(err) {
 	if(err) return handleError(err);
@@ -56,7 +59,8 @@ var gun4 = new Gun({
   init_value: 70,
   given_value: null,
   damage: 18,
-  user: null
+  forSale: true,
+  owner: null
 });
 gun4.save(function(err) {
 	if(err) return handleError(err);
@@ -70,7 +74,8 @@ var gun5 = new Gun({
   init_value: 110,
   given_value: null,
   damage: 30,
-  user: null
+  forSale: true,
+  owner: null
 });
 gun5.save(function(err) {
 	if(err) return handleError(err);
@@ -83,7 +88,8 @@ var gun6 = new Gun({
   init_value: 100,
   given_value: null,
   damage: 31,
-  user: null
+  forSale: true,
+  owner: null
 });
 gun6.save(function(err) {
 	if(err) return handleError(err);

@@ -128,6 +128,20 @@ app.post('/logout', function(req, res) {
 
 
 // ------------------------------
+// SHOW STATUS ------------------
+// ------------------------------
+app.get('/user/:id', function(req, res) {
+  console.log('got status req');
+
+	User.findOne( {_id: req.params.id} ).then(function(user) {
+
+    console.log("sending status");
+		res.send(user);
+	});
+});
+
+
+// ------------------------------
 // GET ALL GUNS ----------------
 // ------------------------------
 app.get('/guns', function(req, res) {
