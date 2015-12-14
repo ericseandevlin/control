@@ -7,7 +7,9 @@ var userSchema = new mongoose.Schema({
   password_hash: { type: String, required: true },
 	profile_img: String,
   points: Number,
-  guns: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Gun' }],
+  kills: 0,
+  equipped: { type: mongoose.Schema.Types.ObjectId, ref: 'Gun' },
+  guns: Array,
 	created_at: { type:Date, default: Date.now },
   updated_at: { type:Date, default: Date.now }
 });
