@@ -64,6 +64,7 @@ app.post('/signup', function(req, res) {
     password_hash: password_hash,
     profile_img: req.body.profile_img,
     points: 100,
+    kills: 0
   });
 
   user.save(function(err) {
@@ -183,7 +184,7 @@ app.put('/gun/:id', function(req, res) {
 
 
 // ------------------------------
-// UPDATE USER BUY --------
+// UPDATE USER BUY --------------
 // ------------------------------
 app.put('/user/:id', function(req, res) {
 console.log("got user gun buy");
@@ -199,3 +200,30 @@ console.log("got user gun buy");
     res.send(user);
 	});
 });
+
+
+// ------------------------------
+// UPDATE GUN EQUIP -------------
+// ------------------------------
+app.put('/equip/:id', function(req, res) {
+console.log("got gun equip");
+
+  // find User with cookie, add gun to user's equipped parameter
+
+	User.findByIdAndUpdate(
+    req.cookies.loggedinId,
+    {equipped: req.params.id},
+    function(err, user) {
+      if (err) {
+        console.log(err);
+        res.statusCode = 503;
+      } else {
+        console.log('gun equipped');
+        res.send(user);
+	    };
+    });
+  // delete it from user's guns array
+
+});
+
+    // $pull: {guns: tempGun}

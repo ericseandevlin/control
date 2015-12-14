@@ -44,10 +44,39 @@
           <strong>NAME: </strong>{{ heroes.player.username }}<br>
           <strong>POINTS: </strong>{{heroes.player.points}}<br>
           <strong>KILLS: </strong>{{heroes.player.kills}}<br>
-          <strong>DAMAGE: </strong>{{player.guns}}<br>
+
+          <strong>EQUIPPED: </strong><br>
+          <img class="gun-img" ng-src={{heroes.activeGun.gun_img}}>
+
+          <div class="details">
+            <strong>NAME: </strong>{{heroes.activeGun.name }}<br>
+            <strong>DAMAGE: </strong>{{heroes.activeGun.damage}}<br>
+            <button ng-click="heroes.sell(activeGun._id)">SELL</button>
+          </div>
         </div>
       </div>
     </div>
+
+    <!------- THEMATC BREAK ------>
+    <hr>
+    <!------- INVENTORY -------->
+
+
+      <h3>YOUR INVENTORY</h3>
+      <div class="user-info-container" ng-repeat="gun in heroes.player.guns">
+
+        <img class="gun-img" ng-src={{gun.gun_img}}>
+
+        <div class="details">
+          <strong>NAME: </strong>{{ gun.name }}<br>
+          <strong>DAMAGE: </strong>{{gun.damage}}<br>
+          <strong>PRICE: </strong>{{gun.shop_value}}<br>
+          <button ng-click="heroes.equip(gun._id)">EQUIP</button>
+          <button ng-click="heroes.sell(gun._id)">SELL</button>
+        </div>
+
+      </div>
+
 
     <!------- THEMATC BREAK ------>
     <hr>
@@ -77,8 +106,6 @@
 		<div id="guns-container">
       <h3>GUN STORE</h3>
 			<div class="gun-info-container" ng-repeat="gun in heroes.guns" ng-show="gun.forSale">
-
-        <!-- <div ng-show="gun.forSale"> -->
 
           <img class="gun-img" ng-src={{gun.gun_img}}>
 

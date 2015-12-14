@@ -9,7 +9,7 @@ var userSchema = new mongoose.Schema({
   points: Number,
   kills: 0,
   equipped: { type: mongoose.Schema.Types.ObjectId, ref: 'Gun' },
-  guns: [gunSchema],
+  guns: Array,
 	created_at: { type:Date, default: Date.now },
   updated_at: { type:Date, default: Date.now }
 });

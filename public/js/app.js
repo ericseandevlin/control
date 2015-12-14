@@ -12,6 +12,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
 
       var self = this;
       self.player = [];
+      self.activeGun = {};
 
       self.users = [];
       self.totalUsers = 0;
@@ -138,9 +139,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
       // compare the gun value with available points
       this.buy = function(gunId) {
         console.log("buying gun");
-
         var gunToBuy = this.getGun(gunId);
-
         if (gunToBuy > self.player.points) {
           console.log("you can't afford this");
         } else {
@@ -179,16 +178,32 @@ angular.module('Heroes', []).directive('ngheroes', function() {
 
         }; // end if/else
 
+        // update everything
+        this.showStatus();
+        this.getUsers();
+        this.getGuns();
       }; // end buy
 
       // ==================
       // equip gun
       // ==================
-      this.equip = function() {
+      // adds gun id to user's equipped
+      this.equip = function(gunId) {
         console.log("equipping gun");
+        console.log(gunId);
 
-        // move a gun from user's guns array to user's equipped
-      }
+        // get gun object just to have object-filler to pass into $http
+        self.activeGun = this.getGun(gunId);
+
+        // adds gun id into equipped
+        self.$http.put('/equip/'+gunId, self.activeGun).then(function(response) {
+          // returns gun id
+          console.log("gun equipped");
+          console.log(response);
+
+          // get gun object from equipped id and set to self.activeGun
+        });
+      };
 
       // ==================
       // attack
