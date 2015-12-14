@@ -109,7 +109,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           // console.log(response.data);
           var firearms = response.data;
 
-          // makes display value init or given
+          // sets value displayed in shop the initial value or one given by a player
           for (var i=0; i<firearms.length; i++){
             firearms[i].shop_value = 0;
             if ( firearms[i].given_value === null ) {
@@ -117,15 +117,100 @@ angular.module('Heroes', []).directive('ngheroes', function() {
             } else if ( firearms[i].given_value != null ) {
               firearms[i].shop_value = firearms[i].given_value;
             };
-
           };
           self.guns = firearms;
-          console.log(self.guns);
         });
       };
       this.getGuns();
 
+      // ==================
+      // buy guns
+      // ==================
+      // find gun info in guns array
+      this.getGun = function(gunId) {
+        for (i=0; i<self.guns.length; i++) {
+          if (self.guns[i]._id === gunId) {
+            return self.guns[i];
+          };
+        };
+      };
 
+      // compare the gun value with available points
+      this.buy = function(gunId) {
+        console.log("buying gun");
+
+        var gunToBuy = this.getGun(gunId);
+
+        if (gunToBuy > self.player.points) {
+          console.log("you can't afford this");
+        } else {
+
+          // GUN http req --------------
+          // set gun forSale to false
+          // add user id as gun owner
+          gunToBuy.forSale = false;
+          gunToBuy.owner = Cookies.get('loggedinId');
+
+          console.log(gunToBuy);
+
+          var gunId = gunToBuy._id;
+
+          self.$http.put('/gun/'+gunId, gunToBuy).then(function(response) {
+            console.log("gun updated");
+            console.log(response);
+          });
+
+          // USER http req -------------
+          var playerId = Cookies('loggedinId');
+
+          // subtract the value from the points
+          var newPoints = self.player.points - gunToBuy.shop_value;
+
+          // add gun to user's guns array
+          self.$http.put('/user/'+playerId, {
+            points: newPoints,
+            newGun: gunToBuy,
+          }).then(function(response) {
+            console.log("player's points and gun added");
+            console.log(response);
+          });
+
+          // prompt to equip
+
+        }; // end if/else
+
+      }; // end buy
+
+      // ==================
+      // equip gun
+      // ==================
+      this.equip = function() {
+        console.log("equipping gun");
+
+        // move a gun from user's guns array to user's equipped
+      }
+
+      // ==================
+      // attack
+      // ==================
+      this.attack = function() {
+        console.log("attacking");
+
+        // subtract damage amount from victim's points
+
+        // add random self-defense damage to attacker from victim?
+      }
+
+      // ==================
+      // check for death
+      // ==================
+      this.death = function() {
+        console.log("ckecking for death");
+
+        // if victim points = 0 update kill status, background-color to red, remove attack button.
+
+        // if player points = 0, update status to say 'you are dead'
+      }
 
     }] // close controller
   }; // close return

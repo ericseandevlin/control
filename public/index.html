@@ -43,6 +43,7 @@
         <div class="details">
           <strong>NAME: </strong>{{ heroes.player.username }}<br>
           <strong>POINTS: </strong>{{heroes.player.points}}<br>
+          <strong>KILLS: </strong>{{heroes.player.kills}}<br>
           <strong>DAMAGE: </strong>{{player.guns}}<br>
         </div>
       </div>
@@ -75,23 +76,24 @@
 
 		<div id="guns-container">
       <h3>GUN STORE</h3>
-			<div class="gun-info-container" ng-repeat="gun in heroes.guns">
+			<div class="gun-info-container" ng-repeat="gun in heroes.guns" ng-show="gun.forSale">
 
-        <img class="gun-img" ng-src={{gun.gun_img}}>
+        <!-- <div ng-show="gun.forSale"> -->
 
-        <div class="details">
-					<strong>NAME: </strong>{{ gun.name }}<br>
-          <strong>DAMAGE: </strong>{{gun.damage}}<br>
-          <strong>PRICE: </strong>{{gun.shop_value}}<br>
+          <img class="gun-img" ng-src={{gun.gun_img}}>
 
-          <button ng-click="heroes.buy(gun._id)">BUY</button>
-        </div>
+          <div class="details">
+  					<strong>NAME: </strong>{{ gun.name }}<br>
+            <strong>DAMAGE: </strong>{{gun.damage}}<br>
+            <strong>PRICE: </strong>{{gun.shop_value}}<br>
+            <button ng-click="heroes.buy(gun._id)">BUY</button>
+          </div>
+
+        <!-- </div> -->
 
 			</div>
 			<!-- <br> -->
     </div>
-
-
 
 
 	</div> <!-- close content-wrapper -->

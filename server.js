@@ -142,7 +142,7 @@ app.get('/user/:id', function(req, res) {
 
 
 // ------------------------------
-// GET ALL GUNS ----------------
+// GET ALL GUNS -----------------
 // ------------------------------
 app.get('/guns', function(req, res) {
   console.log('got get all guns');
@@ -152,5 +152,50 @@ app.get('/guns', function(req, res) {
     console.log("sending "+guns.length+" guns");
 
 		res.send(guns);
+	});
+});
+
+
+// ------------------------------
+// UPDATE GUN BUY ---------
+// ------------------------------
+app.put('/gun/:id', function(req, res) {
+  console.log(req.params.id);
+  console.log("got gun gun buy");
+  console.log(req.body);
+
+	Gun.findByIdAndUpdate(
+    req.params.id, {
+      forSale: false,
+      owner: req.cookies.loggedinId
+    }, function(err, gun) {
+    if (err) {
+      console.log(err);
+      res.statusCode = 503;
+    } else {
+    console.log('Gun updated');
+		res.send(gun);
+    };
+
+  });
+
+});
+
+
+// ------------------------------
+// UPDATE USER BUY --------
+// ------------------------------
+app.put('/user/:id', function(req, res) {
+console.log("got user gun buy");
+
+	User.findByIdAndUpdate(
+    req.params.id,
+    {$push: {guns: req.body.newGun},
+    points: req.body.points},
+    {safe: true, upsert: true},
+    function(err, user) {
+    console.log('User gun added, points updated');
+
+    res.send(user);
 	});
 });
