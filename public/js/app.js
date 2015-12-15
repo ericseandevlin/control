@@ -1,6 +1,6 @@
 $(function() {
   console.log('js loaded');
-});
+}); // close window loaded
 
 angular.module('Heroes', []).directive('ngheroes', function() {
   return {
@@ -32,9 +32,9 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         // request to get all users
         self.$http.get('/users').then(function(response) {
           self.users = response.data;
-          for (var i=0; i<self.users.length; i++){
-            self.users[i].show = true;
-          };
+          // for (var i=0; i<self.users.length; i++){
+          //   self.users[i].show = true;
+          // };
           // console.log(self.users);
         });
         // return self.users;
@@ -53,11 +53,12 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           profile_img: this.formImg,
         }).then(function success(response) {
           console.log("saved in db", response);
-          // this.showStatus();
           // Empty form
           self.formUsername = '';
           self.formPassword = '';
           self.formImg = '';
+          self.getUsers();
+          self.getAUser();
         }); // end http post
       }; // end newUser
 
@@ -76,6 +77,9 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           // Empty form
           self.formUsername = '';
           self.formPassword = '';
+          this.getUsers();
+          this.getAUser();
+          this.getGun(self.player.equipped);
         }); // end http post
       }; // end login
 
@@ -88,17 +92,6 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         Cookies.remove('loggedinId');
       }; // end logout
 
-      // ==================
-      // show status
-      // ==================
-      this.showStatus = function() {
-        console.log('getting status');
-        var id = Cookies.get('loggedinId');
-        self.$http.get('/user/'+id).then(function(response) {
-          self.player = response.data;
-        });
-      };
-      this.showStatus();
 
       // ==================
       // get all guns
@@ -179,7 +172,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         }; // end if/else
 
         // update everything
-        this.showStatus();
+        this.getAUser();
         this.getUsers();
         this.getGuns();
       }; // end buy
@@ -190,7 +183,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
       // adds gun id to user's equipped
       this.equip = function(gunId) {
         console.log("equipping gun");
-        console.log(gunId);
+        // console.log(gunId);
 
         // get gun object just to have object-filler to pass into $http
         self.activeGun = this.getGun(gunId);
@@ -201,19 +194,32 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           console.log("gun equipped");
           console.log(response);
 
-          // get gun object from equipped id and set to self.activeGun
+          // updates player (and inventory)
+          self.player = response.data;
+
         });
       };
 
       // ==================
       // attack
       // ==================
-      this.attack = function() {
+      // subtract damage amount from victim's points
+      this.attack = function(victim) {
         console.log("attacking");
+        console.log(victim);
 
-        // subtract damage amount from victim's points
+        var id = victim._id;
+
+        victim.damage = self.activeGun.damage;
+
+        self.$http.put('/attack/'+id, victim).then(function(response) {
+        console.log(response);
+
+        self.getUsers();
+        });
 
         // add random self-defense damage to attacker from victim?
+
       }
 
       // ==================
@@ -226,6 +232,22 @@ angular.module('Heroes', []).directive('ngheroes', function() {
 
         // if player points = 0, update status to say 'you are dead'
       }
+
+      // ==================
+      // show status
+      // ==================
+      this.getAUser = function() {
+        console.log('getting status');
+        var id = Cookies.get('loggedinId');
+        self.$http.get('/user/'+id).then(function(response) {
+          self.player = response.data;
+          console.log("========");
+          console.log(self.player);
+          self.activeGun = self.getGun(self.player.equipped);
+        });
+      };
+      this.getAUser();
+
 
     }] // close controller
   }; // close return
