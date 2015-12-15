@@ -17,6 +17,7 @@ var gun1 = new Gun({
   given_value: null,
   damage: 2,
   forSale: true,
+  show: true,
   owner: null
 });
 gun1.save(function(err) {
@@ -31,6 +32,7 @@ var gun2 = new Gun({
   given_value: null,
   damage: 3,
   forSale: true,
+  show: true,
   owner: null
 });
 gun2.save(function(err) {
@@ -46,6 +48,7 @@ var gun3 = new Gun({
   given_value: null,
   damage: 15,
   forSale: true,
+  show: true,
   owner: null
 });
 gun3.save(function(err) {
@@ -60,6 +63,7 @@ var gun4 = new Gun({
   given_value: null,
   damage: 18,
   forSale: true,
+  show: true,
   owner: null
 });
 gun4.save(function(err) {
@@ -75,6 +79,7 @@ var gun5 = new Gun({
   given_value: null,
   damage: 30,
   forSale: true,
+  show: true,
   owner: null
 });
 gun5.save(function(err) {
@@ -89,6 +94,7 @@ var gun6 = new Gun({
   given_value: null,
   damage: 31,
   forSale: true,
+  show: true,
   owner: null
 });
 gun6.save(function(err) {
