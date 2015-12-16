@@ -11,6 +11,18 @@ angular.module('Heroes', []).directive('ngheroes', function() {
       this.$http = $http;
 
       var self = this;
+      self.loginShow = false;
+      self.signupShow = false;
+
+      self.loggedIn = false;
+
+      // keeps true on refresh;
+      if (Cookies.get('loggedinId') != null || Cookies.get('loggedinId') != undefined) {
+        self.loggedIn = true;
+      };
+
+      self.equipped = false;
+
       self.player = [];
       self.activeGun = {};
 
@@ -41,6 +53,27 @@ angular.module('Heroes', []).directive('ngheroes', function() {
       };
       this.getUsers();
 
+
+      // ==================
+      // modals
+      // ==================
+      this.loginModal = function() {
+        console.log("login modal");
+        self.signupShow = false;
+        self.loginShow = true;
+      };
+
+      this.signupModal = function() {
+        console.log("signup modal");
+        self.loginShow = false;
+        self.signupShow = true;
+      };
+
+      this.closeModal = function() {
+        self.loginShow = false;
+        self.signupShow = false;
+      }
+
       // ==================
       // new user
       // ==================
@@ -61,11 +94,20 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           self.formImg = '';
           self.getUsers();
           self.getAUser();
+          self.getGun(self.player.equipped);
+          if (self.player.equipped != null || self.player.equipped != undefined) {
+            self.equipped = true;
+          } else {
+            self.equipped = false;
+          };
+          self.loginShow = false;
+          self.signupShow = false;
+          self.loggedIn = true;
         }); // end http post
       }; // end newUser
 
       // ==================
-      // login user
+      // login
       // ==================
       this.login = function() {
         console.log('creating a user');
@@ -84,16 +126,29 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           self.getUsers();
           self.getAUser();
           self.getGun(self.player.equipped);
+          if (self.player.equipped != null || self.player.equipped != undefined) {
+            self.equipped = true;
+          } else {
+            self.equipped = false;
+          };
+
+          self.loginShow = false;
+          self.signupShow = false;
+          self.loggedIn = true;
         }); // end http post
       }; // end login
 
       // ==================
-      // logout user
+      // logout
       // ==================
       this.logout = function() {
         console.log('logging out');
         // deletes cookie
         Cookies.remove('loggedinId');
+        self.getUsers();
+        self.getAUser();
+        self.loggedIn = false;
+        self.equipped = false;
       }; // end logout
 
 
@@ -199,6 +254,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           console.log(response);
 
           // updates player (and inventory)
+          self.equipped = true;
           self.player = response.data;
         });
       };
