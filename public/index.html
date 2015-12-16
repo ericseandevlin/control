@@ -3,127 +3,174 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Special+Elite|Oswald:400,700" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <h2>CONTROL</h2>
 
 	<div id="content-wrapper" ngheroes>
-    <!------- SIGNUP / LOGIN -------->
 
-    <button>SIGNUP</button>
-    <button>LOGIN</button>
-    <button ng-click="heroes.logout()">LOGOUT</button>
+    <!------- HEADER / NAV -------->
+    <div class="header">
 
-    <!------- LOGIN FORM -------->
+      <nav>
+        <button ng-click="heroes.signupModal()" ng-hide="heroes.loggedIn">SIGN UP</button>
+        <button ng-click="heroes.loginModal()", ng-hide="heroes.loggedIn">LOGIN</button>
+        <button ng-click="heroes.logout()", ng-show="heroes.loggedIn">LOGOUT</button>
+      </nav>
 
-    <form>
-      <h3>LOGIN!</h3>
-      <input type="text" ng-model="heroes.formUsername" placeholder="Username"><br>
-      <input type="text" ng-model="heroes.formPassword" placeholder="Password"><br>
-      <button ng-click="heroes.login()">SUBMIT</button>
-    </form>
+      <h1>CONTROL</h1>
 
-    <!------- SIGNUP FORM -------->
+    </div>
 
-    <form>
-      <h3>SIGN UP!</h3>
-      <input type="text" ng-model="heroes.formUsername" placeholder="Username"><br>
-      <input type="text" ng-model="heroes.formPassword" placeholder="Password"><br>
-      <input type="text" ng-model="heroes.formImg" placeholder="add image link"><br>
-      <button ng-click="heroes.newUser()">SUBMIT</button>
-    </form>
+    <!------- LOGIN MODAL -------->
+  	<div class="modal" ng-show="heroes.loginShow">
+      <div class='modal-content'>
+        <button id="close" ng-click="heroes.closeModal()">x</button>
+        <form class="login">
+          <h3 class="modal-title">LOGIN!</h3>
+          <input type="text" ng-model="heroes.formUsername" placeholder="Username"><br>
+          <input type="text" ng-model="heroes.formPassword" placeholder="Password"><br>
+          <button ng-click="heroes.login()">LOGIN</button>
+          <hr>
+          <button ng-click=" heroes.signupModal()">SIGN UP</button>
+        </form>
+      </div>
+    </div>
+
+    <!------- SIGNUP MODAL -------->
+    <div class="modal" ng-show="heroes.signupShow">
+      <div class='modal-content'>
+        <button id="close" ng-click="heroes.closeModal()">x</button>
+        <form class="signup">
+          <h3 class="modal-title">SIGN UP!</h3>
+          <input type="text" ng-model="heroes.formUsername" placeholder="Username"><br>
+          <input type="text" ng-model="heroes.formPassword" placeholder="Password"><br>
+          <input type="text" ng-model="heroes.formImg" placeholder="add image link"><br>
+          <button ng-click="heroes.newUser()">SUBMIT</button>
+        </form>
+      </div>
+    </div>
+
+<!------- ALL OTHER USERS -------->
+    <div id="other-users-stuff-column">
+        		<div id="users-container">
+              <h3>PLAYERS</h3>
+        			<div class="user-info-container" ng-repeat="user in heroes.users">
+
+                <img class="user-img" ng-src={{user.profile_img}}>
+
+                <div class="details">
+                  <div>
+                    <strong>NAME:   </strong>{{ user.username }}
+                  </div>
+
+                  <div ng-show="user.points">
+                    <strong>POINTS:   </strong><span class="number">{{user.points}}
+                  </span></div>
+
+                  <div ng-show="user.dead">
+                    <strong>DEAD.</strong>
+                  </div>
+                </div>
+
+                  <button class="attack" ng-hide="user.dead" ng-click="heroes.attack(user)">ATTACK</button>
+
+              </div>
+            </div>
+    </div> <!-- end-ther-users-stuff-column -->
 
 
-    <!------- STATUS -------->
-    <div id="status container">
-      <h3>STATUS</h3>
-      <div class="user-info-container">
-        <img class="user-img" ng-src={{heroes.player.profile_img}}>
-        <div class="details">
-          <strong>NAME: </strong>{{ heroes.player.username }}<br>
-          <strong>POINTS: </strong>{{heroes.player.points}}<br>
-          <strong>KILLS: </strong>{{heroes.player.kills}}<br>
-
-          <strong>EQUIPPED: </strong><br>
-          <img class="gun-img" ng-src={{heroes.activeGun.gun_img}}>
+    <!------- YOUR STATUS -------->
+<div id="player-stuff-column">
+    <div id="status" class="row" ng-show="heroes.loggedIn">
+      <!-- <div class="four columns"> -->
+        <h3>YOUR STATUS</h3>
+        <div class="user-info-container">
+          <img class="user-img" ng-src={{heroes.player.profile_img}}>
 
           <div class="details">
-            <strong>NAME: </strong>{{heroes.activeGun.name }}<br>
-            <strong>DAMAGE: </strong>{{heroes.activeGun.damage}}<br>
-            <button ng-click="heroes.sell(activeGun._id)">SELL</button>
+            <strong>NAME: </strong>{{ heroes.player.username }}<br>
+            <strong>POINTS: </strong><span class="number">{{heroes.player.points}}</span><br>
+            <strong>KILLS: </strong><span class="number">{{heroes.player.kills}}</span><br>
           </div>
+
+          <div ng-show="heroes.equipped">
+            <h3 id="equipped-title">EQUIPPED</h3><br>
+            <img class="gun-img" ng-src={{heroes.activeGun.gun_img}}>
+
+            <div class="details">
+              <strong>NAME: </strong>{{heroes.activeGun.name }}<br>
+              <strong>DAMAGE: </strong><span class="number">{{heroes.activeGun.damage}}</span><br>
+            </div>
+
+            <button ng-click="heroes.sell(activeGun._id)">SELL</button>
+          <!-- </div> -->
+
         </div>
       </div>
-    </div>
 
-    <!------- THEMATC BREAK ------>
-    <hr>
     <!------- INVENTORY -------->
 
+    <div id="inventory" class="row" ng-show="heroes.loggedIn">
+      <!-- <div class="four columns"> -->
+        <h3>YOUR INVENTORY</h3>
+        <div class="user-info-container" ng-repeat="gun in heroes.player.guns">
 
-      <h3>YOUR INVENTORY</h3>
-      <div class="user-info-container" ng-repeat="gun in heroes.player.guns">
+          <div ng-show="gun.show">
+            <img class="gun-img" ng-src={{gun.gun_img}}>
 
-        <img class="gun-img" ng-src={{gun.gun_img}}>
+            <div class="details">
+              <strong>NAME: </strong>{{ gun.name }}<br>
+              <strong>DAMAGE: </strong><span class="number">{{gun.damage}}</span><br>
+              <strong>PRICE: </strong><span class="number">{{gun.shop_value}}</span><br>
+              <button ng-click="heroes.equip(gun._id)">EQUIP</button>
+              <button ng-click="heroes.sell(gun._id)">SELL</button>
+            </div>
+          </div>
 
-        <div class="details">
-          <strong>NAME: </strong>{{ gun.name }}<br>
-          <strong>DAMAGE: </strong>{{gun.damage}}<br>
-          <strong>PRICE: </strong>{{gun.shop_value}}<br>
-          <button ng-click="heroes.equip(gun._id)">EQUIP</button>
-          <button ng-click="heroes.sell(gun._id)">SELL</button>
         </div>
-
       </div>
-
-
-    <!------- THEMATC BREAK ------>
-    <hr>
-    <!------- ALL USERS -------->
-
-
-		<div id="users-container">
-      <h3>USERS</h3>
-			<div class="user-info-container" ng-repeat="user in heroes.users">
-
-        <img class="user-img" ng-src={{user.profile_img}}>
-
-        <div class="details">
-					<strong>NAME: </strong>{{ user.username }}<br>
-          <strong>POINTS: </strong>{{user.points}}<br>
-
-          <button ng-click="heroes.attack(user._id)">ATTACK</button>
-        </div>
-
-			</div>
-			<!-- <br> -->
     </div>
+</div>  <!-- end player stuff column -->
+
 
     <!------- GUN STORE -------->
 
-
+  <!-- <div class="eight columns"> -->
+<div id="gun-store-column" class="row">
 		<div id="guns-container">
       <h3>GUN STORE</h3>
 			<div class="gun-info-container" ng-repeat="gun in heroes.guns" ng-show="gun.forSale">
 
-          <img class="gun-img" ng-src={{gun.gun_img}}>
+        <img class="gun-img" ng-src={{gun.gun_img}}>
 
-          <div class="details">
-  					<strong>NAME: </strong>{{ gun.name }}<br>
-            <strong>DAMAGE: </strong>{{gun.damage}}<br>
-            <strong>PRICE: </strong>{{gun.shop_value}}<br>
-            <button ng-click="heroes.buy(gun._id)">BUY</button>
+        <div class="details">
+
+          <div>
+		        <strong>NAME:  </strong>{{ gun.name }}
           </div>
 
-        <!-- </div> -->
+          <div>
+          <strong>DAMAGE:  </strong><span class="number">{{gun.damage}}</span>
+          </div>
+
+          <div>
+          <strong>PRICE:  </strong><span class="number">{{gun.shop_value}}</span>
+          </div>
+
+        </div>
+
+        <button ng-click="heroes.buy(gun._id)">BUY</button>
 
 			</div>
-			<!-- <br> -->
     </div>
+</div>
+      <!-- </div>
+    </div> -->
 
-
-	</div> <!-- close content-wrapper -->
+</div> <!-- close content-wrapper -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>

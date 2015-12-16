@@ -51,7 +51,7 @@ app.get('/users', function(req, res) {
 
 	User.find().then(function(users) {
 
-    console.log("sending "+users.length+" sites");
+    console.log("sending "+users.length+" users");
 
 		res.send(users);
 	});
@@ -71,7 +71,9 @@ app.post('/signup', function(req, res) {
     password_hash: password_hash,
     profile_img: req.body.profile_img,
     points: 100,
-    kills: 0
+    kills: 0,
+    show: true,
+    dead: false
   });
 
   user.save(function(err) {
@@ -165,8 +167,10 @@ app.get('/guns', function(req, res) {
 
 
 // ------------------------------
-// UPDATE GUN BUY ---------
+// UPDATE BUY -------------------
 // ------------------------------
+
+// updates gun with buy
 app.put('/gun/:id', function(req, res) {
   console.log(req.params.id);
   console.log("got gun gun buy");
@@ -184,16 +188,11 @@ app.put('/gun/:id', function(req, res) {
     console.log('Gun updated');
 		res.send(gun);
     };
-
   });
-
 });
 
-
-// ------------------------------
-// UPDATE USER BUY --------------
-// ------------------------------
-app.put('/user/:id', function(req, res) {
+//updates user with buy
+app.put('/usergun/:id', function(req, res) {
 console.log("got user gun buy");
 
 	User.findByIdAndUpdate(
@@ -212,25 +211,85 @@ console.log("got user gun buy");
 // ------------------------------
 // UPDATE GUN EQUIP -------------
 // ------------------------------
+
+// find User with cookie, add gun to user's equipped parameter
 app.put('/equip/:id', function(req, res) {
 console.log("got gun equip");
-
-  // find User with cookie, add gun to user's equipped parameter
 
 	User.findByIdAndUpdate(
     req.cookies.loggedinId,
     {equipped: req.params.id},
-    function(err, user) {
+    // {$pull: {"guns": {_id: req.params.id}}},
+    // {safe: true, upsert: true},
+    function(err, gunId) {
       if (err) {
         console.log(err);
         res.statusCode = 503;
       } else {
         console.log('gun equipped');
-        res.send(user);
+        // console.log('gun deleted from guns array');
+        res.send(gunId);
 	    };
     });
-  // delete it from user's guns array
-
 });
 
-    // $pull: {guns: tempGun}
+
+// ------------------------------
+// ATTACK -----------------------
+// ------------------------------
+
+app.put('/attack/:id', function(req, res) {
+console.log("attacking");
+// console.log(req.body);
+
+  var newPoints = req.body.points - req.body.damage;
+
+  // console.log(newPoints);
+
+  User.findByIdAndUpdate(
+    req.params.id,
+    {points: newPoints}, function(err, injured) {
+      if (err) {
+        console.log(err);
+        res.statusCode = 503;
+      } else {
+        console.log(injured);
+        res.send(injured)
+      };
+    });
+});
+
+
+// ------------------------------
+// UPDATING KILLS / DEAD POINTS -
+// ------------------------------
+
+app.put('/death/:id', function(req, res) {
+console.log("bring out your dead");
+
+  //updates player's kills
+  User.findByIdAndUpdate(
+    req.params.id,
+    {kills: req.body.newKills}, function(err, updated) {
+      if (err) {
+        console.log(err);
+        res.statusCode = 503;
+      } else {
+        console.log(updated);
+        res.send(updated)
+      };
+    });
+
+    // changes victim dead status to true
+  User.findByIdAndUpdate(
+    req.body._id,
+    {dead: true}, function(err, updated) {
+      if (err) {
+        console.log(err);
+        res.statusCode = 503;
+      } else {
+        console.log(updated);
+        res.send(updated)
+      };
+    });
+});
