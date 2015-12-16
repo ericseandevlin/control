@@ -9,9 +9,13 @@ var express      = require('express'),
     cookieParser = require('cookie-parser'),
     morgan       = require('morgan');
 
-// var port         = process.env.PORT || 3000;
     app          = express();
-    app.listen(3000);
+
+// ----------------------------------
+// PORT -----------------------------
+// ----------------------------------
+var port = process.env.PORT || 3000;
+    app.listen(port);
 
 // ----------------------------------
 // MIDDLEWARE -----------------------
@@ -24,8 +28,11 @@ app.use(cookieParser());
 // ----------------------------------
 // DB STUFF -------------------------
 // ----------------------------------
-console.log("server working");
-mongoose.connect('mongodb://localhost/control_app');
+// console.log("server working");
+// mongoose.connect('mongodb://localhost/control_app');
+
+var mongoUri =  process.env.MONGOLAB_URI || 'mongodb://localhost/control_app';
+mongoose.connect(mongoUri);
 
 // ----------------------------------
 // SEED -----------------------------
