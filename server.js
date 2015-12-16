@@ -184,7 +184,7 @@ app.put('/gun/:id', function(req, res) {
 });
 
 //updates user with buy
-app.put('/user/:id', function(req, res) {
+app.put('/usergun/:id', function(req, res) {
 console.log("got user gun buy");
 
 	User.findByIdAndUpdate(
@@ -249,5 +249,25 @@ console.log("attacking");
         res.send(injured)
       };
     });
+});
 
+
+// ------------------------------
+// UPDATING KILLS / DEAD POINTS -
+// ------------------------------
+
+app.put('/death/:id', function(req, res) {
+console.log("bring out your dead");
+
+  User.findByIdAndUpdate(
+    req.params.id,
+    {kills: req.body.newKills}, function(err, updated) {
+      if (err) {
+        console.log(err);
+        res.statusCode = 503;
+      } else {
+        console.log(updated);
+        res.send(updated)
+      };
+    });
 });

@@ -46,6 +46,8 @@ angular.module('Heroes', []).directive('ngheroes', function() {
       // ==================
       this.newUser = function() {
         console.log('creating a user');
+
+        self.activeGun = {};
         // saves to db makes session cookie
         self.$http.post('/signup', {
           username: this.formUsername,
@@ -67,6 +69,8 @@ angular.module('Heroes', []).directive('ngheroes', function() {
       // ==================
       this.login = function() {
         console.log('creating a user');
+
+        self.activeGun = {};
         // finds user makes session cookie
         self.$http.post('/login', {
           username: this.formUsername,
@@ -77,9 +81,9 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           // Empty form
           self.formUsername = '';
           self.formPassword = '';
-          this.getUsers();
-          this.getAUser();
-          this.getGun(self.player.equipped);
+          self.getUsers();
+          self.getAUser();
+          self.getGun(self.player.equipped);
         }); // end http post
       }; // end login
 
@@ -159,7 +163,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           var newPoints = self.player.points - gunToBuy.shop_value;
 
           // add gun to user's guns array
-          self.$http.put('/user/'+playerId, {
+          self.$http.put('/usergun/'+playerId, {
             points: newPoints,
             newGun: gunToBuy,
           }).then(function(response) {
@@ -196,7 +200,6 @@ angular.module('Heroes', []).directive('ngheroes', function() {
 
           // updates player (and inventory)
           self.player = response.data;
-
         });
       };
 
@@ -213,25 +216,37 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         victim.damage = self.activeGun.damage;
 
         self.$http.put('/attack/'+id, victim).then(function(response) {
-        console.log(response);
+          console.log("attack response ========")
+          console.log(response);
 
-        self.getUsers();
+          self.death(response);
         });
-
+      };
         // add random self-defense damage to attacker from victim?
-
-      }
 
       // ==================
       // check for death
       // ==================
-      this.death = function() {
+      //gets victim obj from attack function
+      this.death = function(victim) {
         console.log("ckecking for death");
 
-        // if victim points = 0 update kill status, background-color to red, remove attack button.
+        // if victim points <= 0 update kill status, background-color to red, remove attack button.
+        if (victim.data.points <= 0) {
+          console.log(victim.data.username+" is dead");
 
+          var id = Cookies.get('loggedinId');
+
+          victim.newKills = self.player.kills + 1;
+          newKills = self.player.kills + 1;
+
+          // passing victim as a filler
+          self.$http.put('/death/'+id, victim).then(function(response){
+          });
+        };
         // if player points = 0, update status to say 'you are dead'
-      }
+        self.getUsers();
+      };
 
       // ==================
       // show status
@@ -247,7 +262,6 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         });
       };
       this.getAUser();
-
 
     }] // close controller
   }; // close return

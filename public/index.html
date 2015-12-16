@@ -3,21 +3,24 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link href='https://fonts.googleapis.com/css?family=Special+Elite|Black+Ops+One' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <h2>CONTROL</h2>
+    <h1>CONTROL</h1>
 
 	<div id="content-wrapper" ngheroes>
     <!------- SIGNUP / LOGIN -------->
-
-    <button>SIGNUP</button>
-    <button>LOGIN</button>
-    <button ng-click="heroes.logout()">LOGOUT</button>
+    <nav>
+      <button>SIGNUP</button>
+      <button>LOGIN</button>
+      <button ng-click="heroes.logout()">LOGOUT</button>
+    </nav>
 
     <!------- LOGIN FORM -------->
 
-    <form>
+    <form class="login">
       <h3>LOGIN!</h3>
       <input type="text" ng-model="heroes.formUsername" placeholder="Username"><br>
       <input type="text" ng-model="heroes.formPassword" placeholder="Password"><br>
@@ -26,7 +29,7 @@
 
     <!------- SIGNUP FORM -------->
 
-    <form>
+    <form class="signup">
       <h3>SIGN UP!</h3>
       <input type="text" ng-model="heroes.formUsername" placeholder="Username"><br>
       <input type="text" ng-model="heroes.formPassword" placeholder="Password"><br>
@@ -36,7 +39,7 @@
 
 
     <!------- STATUS -------->
-    <div id="status container">
+    <div cl="status">
       <h3>STATUS</h3>
       <div class="user-info-container">
         <img class="user-img" ng-src={{heroes.player.profile_img}}>
@@ -90,8 +93,20 @@
         <img class="user-img" ng-src={{user.profile_img}}>
 
         <div class="details">
-					<strong>NAME: </strong>{{ user.username }}<br>
-          <strong>POINTS: </strong>{{user.points}}<br>
+          <div>
+            <strong>NAME: </strong>{{ user.username }}
+          </div>
+            <br>
+
+          <div ng-show="user.points">
+            <strong>POINTS: </strong>{{user.points}}
+          </div>
+          <br>
+
+          <div ng-hide="user.points">
+            <strong>DEAD.</strong>
+          </div>
+          <br>
 
           <button ng-click="heroes.attack(user)">ATTACK</button>
         </div>
