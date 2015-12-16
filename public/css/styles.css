@@ -22,9 +22,8 @@ h3 {
 }
 
 #equipped-title {
-  background-color: none;
-  border-bottom: 2px;
-  border-color: rgba(0, 0, 0, 0.4)
+  background-color: rgb(235, 232, 232);
+  color: rgb(57, 56, 56);
 }
 
 .modal-title {

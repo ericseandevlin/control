@@ -8,6 +8,8 @@ var userSchema = new mongoose.Schema({
 	profile_img: String,
   points: Number,
   kills: 0,
+  show: Boolean,
+  dead: Boolean,
   equipped: { type: mongoose.Schema.Types.ObjectId, ref: 'Gun' },
   guns: Array,
 	created_at: { type:Date, default: Date.now },

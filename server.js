@@ -65,7 +65,8 @@ app.post('/signup', function(req, res) {
     profile_img: req.body.profile_img,
     points: 100,
     kills: 0,
-    show: true
+    show: true,
+    dead: false
   });
 
   user.save(function(err) {
@@ -259,9 +260,23 @@ console.log("attacking");
 app.put('/death/:id', function(req, res) {
 console.log("bring out your dead");
 
+  //updates player's kills
   User.findByIdAndUpdate(
     req.params.id,
     {kills: req.body.newKills}, function(err, updated) {
+      if (err) {
+        console.log(err);
+        res.statusCode = 503;
+      } else {
+        console.log(updated);
+        res.send(updated)
+      };
+    });
+
+    // changes victim dead status to true
+  User.findByIdAndUpdate(
+    req.body._id,
+    {dead: true}, function(err, updated) {
       if (err) {
         console.log(err);
         res.statusCode = 503;

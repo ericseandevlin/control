@@ -21,6 +21,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         self.loggedIn = true;
       };
 
+      // shows equipped html if true
       self.equipped = false;
 
       self.player = [];
@@ -244,16 +245,29 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         console.log("equipping gun");
         // console.log(gunId);
 
-        // get gun object just to have object-filler to pass into $http
+        // show any hidden guns in inventory
+        for (i=0; i<self.player.guns.length; i++) {
+          self.player.guns[i].show = true;
+        }
+
         self.activeGun = this.getGun(gunId);
 
         // adds gun id into equipped
+        // get gun object just to have object-filler to pass into $http
         self.$http.put('/equip/'+gunId, self.activeGun).then(function(response) {
           // returns gun id
           console.log("gun equipped");
           console.log(response);
 
+          // unshow the equipped gun in inventory.
+          for (i=0; i<self.player.guns.length; i++) {
+            if (self.activeGun._id === self.player.guns[i]._id){
+              self.player.guns[i].show = false;
+            }
+          }
+
           // updates player (and inventory)
+          // shows equipped html
           self.equipped = true;
           self.player = response.data;
         });
