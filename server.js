@@ -38,7 +38,7 @@ mongoose.connect(mongoUri);
 // SEED -----------------------------
 // ----------------------------------
 // already seeded
-// var seed = require('./seed.js')
+var seed = require('./seed.js')
 
 var User = require("./models/user.js");
 var Gun = require("./models/gun.js");
