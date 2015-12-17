@@ -215,20 +215,22 @@ console.log("got user gun buy");
 // find User with cookie, add gun to user's equipped parameter
 app.put('/equip/:id', function(req, res) {
 console.log("got gun equip");
+console.log(req.body);
 
 	User.findByIdAndUpdate(
     req.cookies.loggedinId,
-    {equipped: req.params.id},
+    {equipped: req.body},
     // {$pull: {"guns": {_id: req.params.id}}},
     // {safe: true, upsert: true},
-    function(err, gunId) {
+    function(err, thing) {
       if (err) {
         console.log(err);
         res.statusCode = 503;
       } else {
         console.log('gun equipped');
+        console.log(thing);
         // console.log('gun deleted from guns array');
-        res.send(gunId);
+        res.send(thing);
 	    };
     });
 });
@@ -261,35 +263,46 @@ console.log("attacking");
 
 
 // ------------------------------
-// UPDATING KILLS / DEAD POINTS -
+// UPDATING KILLS ---------------
 // ------------------------------
 
-app.put('/death/:id', function(req, res) {
+app.put('/kills/:id', function(req, res) {
 console.log("bring out your dead");
+console.log(req.body.kills);
 
   //updates player's kills
   User.findByIdAndUpdate(
     req.params.id,
-    {kills: req.body.newKills}, function(err, updated) {
+    {kills: req.body.kills}, function(err, updated) {
       if (err) {
         console.log(err);
         res.statusCode = 503;
       } else {
+        console.log('-----kills');
         console.log(updated);
-        res.send(updated)
+        res.send(updated);
       };
     });
+});
 
-    // changes victim dead status to true
+// ------------------------------
+// UPDATING DEAD STATUS ---------
+// ------------------------------
+// changes victim dead status to true
+app.put('/death/:id', function(req, res) {
+  console.log("-------dying");
+  console.log(req.body);
+
   User.findByIdAndUpdate(
-    req.body._id,
+    req.params.id,
     {dead: true}, function(err, updated) {
       if (err) {
         console.log(err);
         res.statusCode = 503;
       } else {
+        console.log('------death');
         console.log(updated);
-        res.send(updated)
+        res.send(updated);
       };
     });
 });

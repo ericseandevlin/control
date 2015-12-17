@@ -55,30 +55,30 @@
 
 <!------- ALL OTHER USERS -------->
     <div id="other-users-stuff-column">
-        		<div id="users-container">
-              <h3>PLAYERS</h3>
-        			<div class="user-info-container" ng-repeat="user in heroes.users">
+  		<div id="users-container">
+        <h3>PLAYERS</h3>
+  			<div class="user-info-container" ng-repeat="user in heroes.users">
 
-                <img class="user-img" ng-src={{user.profile_img}}>
+          <img class="user-img" ng-src={{user.profile_img}}>
 
-                <div class="details">
-                  <div>
-                    <strong>NAME:   </strong>{{ user.username }}
-                  </div>
-
-                  <div ng-show="user.points">
-                    <strong>POINTS:   </strong><span class="number">{{user.points}}
-                  </span></div>
-
-                  <div ng-show="user.dead">
-                    <strong>DEAD.</strong>
-                  </div>
-                </div>
-
-                  <button class="attack" ng-hide="user.dead" ng-click="heroes.attack(user)">ATTACK</button>
-
-              </div>
+          <div class="details">
+            <div>
+              <strong>NAME:   </strong>{{ user.username }}
             </div>
+
+            <div ng-show="user.points">
+              <strong>POINTS:   </strong><span class="number">{{user.points}}
+            </span></div>
+
+            <div ng-show="user.dead">
+              <strong>DEAD.</strong>
+            </div>
+          </div>
+
+          <button class="attack" ng-hide="user.dead" ng-click="heroes.attack(user)">ATTACK</button>
+
+        </div>
+      </div>
     </div> <!-- end-ther-users-stuff-column -->
 
 
@@ -96,16 +96,16 @@
             <strong>KILLS: </strong><span class="number">{{heroes.player.kills}}</span><br>
           </div>
 
-          <div ng-show="heroes.equipped">
+          <!-- <div ng-show="heroes.equipped"> -->
             <h3 id="equipped-title">EQUIPPED</h3><br>
             <img class="gun-img" ng-src={{heroes.activeGun.gun_img}}>
 
             <div class="details">
               <strong>NAME: </strong>{{heroes.activeGun.name }}<br>
               <strong>DAMAGE: </strong><span class="number">{{heroes.activeGun.damage}}</span><br>
-            </div>
+            <!-- </div> -->
 
-            <button ng-click="heroes.sell(activeGun._id)">SELL</button>
+            <!-- <button ng-click="heroes.sell(activeGun._id)">SELL</button> -->
           <!-- </div> -->
 
         </div>
@@ -118,7 +118,7 @@
         <h3>YOUR INVENTORY</h3>
         <div class="user-info-container" ng-repeat="gun in heroes.player.guns">
 
-          <div ng-show="gun.show">
+          <!-- <div ng-show="{{gun.show}}"> -->
             <img class="gun-img" ng-src={{gun.gun_img}}>
 
             <div class="details">
@@ -130,7 +130,7 @@
             </div>
           </div>
 
-        </div>
+        <!-- </div> -->
       </div>
     </div>
 </div>  <!-- end player stuff column -->

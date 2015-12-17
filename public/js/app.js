@@ -96,11 +96,11 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           self.getUsers();
           self.getAUser();
           self.getGun(self.player.equipped);
-          if (self.player.equipped != null || self.player.equipped != undefined) {
-            self.equipped = true;
-          } else {
-            self.equipped = false;
-          };
+          // if (self.player.equipped != null || self.player.equipped != undefined) {
+          //   self.equipped = true;
+          // } else {
+          //   self.equipped = false;
+          // };
           self.loginShow = false;
           self.signupShow = false;
           self.loggedIn = true;
@@ -127,11 +127,13 @@ angular.module('Heroes', []).directive('ngheroes', function() {
           self.getUsers();
           self.getAUser();
           self.getGun(self.player.equipped);
-          if (self.player.equipped != null || self.player.equipped != undefined) {
-            self.equipped = true;
-          } else {
-            self.equipped = false;
-          };
+          // if (self.player.equipped != null || self.player.equipped != undefined) {
+          //   self.equipped = true;
+          // } else {
+          //   self.equipped = false;
+          // };
+          console.log("===========");
+          console.log(self.player.equipped);
 
           self.loginShow = false;
           self.signupShow = false;
@@ -252,24 +254,27 @@ angular.module('Heroes', []).directive('ngheroes', function() {
 
         self.activeGun = this.getGun(gunId);
 
+        console.log(self.activeGun);
         // adds gun id into equipped
         // get gun object just to have object-filler to pass into $http
-        self.$http.put('/equip/'+gunId, self.activeGun).then(function(response) {
+        self.$http.put('/equip/'+gunId, self.activeGun).then(function(equippedPlayer) {
           // returns gun id
           console.log("gun equipped");
-          console.log(response);
+          console.log(equippedPlayer);
 
           // unshow the equipped gun in inventory.
-          for (i=0; i<self.player.guns.length; i++) {
-            if (self.activeGun._id === self.player.guns[i]._id){
-              self.player.guns[i].show = false;
-            }
-          }
+          // for (i=0; i<self.player.guns.length; i++) {
+          //   if (self.activeGun._id === self.player.guns[i]._id){
+          //     self.player.guns[i].show = false;
+          //   }
+          // }
 
           // updates player (and inventory)
           // shows equipped html
-          self.equipped = true;
-          self.player = response.data;
+          self.activeGun = equippedPlayer.data.equipped;
+          self.player = equippedPlayer.data;
+
+          console.log(self.activeGun);
         });
       };
 
@@ -278,7 +283,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
       // ==================
       // subtract damage amount from victim's points
       this.attack = function(victim) {
-        console.log("attacking");
+        console.log("attacking victim");
         console.log(victim);
 
         var id = victim._id;
@@ -295,7 +300,7 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         // add random self-defense damage to attacker from victim?
 
       // ==================
-      // check for death
+      // check for death - update kills
       // ==================
       //gets victim obj from attack function
       this.death = function(victim) {
@@ -305,16 +310,36 @@ angular.module('Heroes', []).directive('ngheroes', function() {
         if (victim.data.points <= 0) {
           console.log(victim.data.username+" is dead");
 
-          var id = Cookies.get('loggedinId');
+          //get player's kills and updates
+          self.player.kills = self.player.kills + 1;
 
-          victim.newKills = self.player.kills + 1;
-          newKills = self.player.kills + 1;
+          // upates player's kills in server
+          var pid = Cookies.get('loggedinId');
 
-          // passing victim as a filler
-          self.$http.put('/death/'+id, victim).then(function(response){
+          self.$http.put('/kills/'+pid, self.player).then(function(response){
+            console.log("------kill update");
+            console.log(response);
           });
-        };
-        // if player points = 0, update status to say 'you are dead'
+
+          // shoving players new kills into victim to pass to server
+          // victim.newKills = self.player.kills + 1;
+          // newKills = self.player.kills + 1;
+
+          var vid = victim.data._id;
+
+          victim.data.dead = true;
+          console.log('checking if dead');
+          console.log(victim);
+
+
+
+          // udating victim to dead
+          self.$http.put('/death/'+vid, victim.data).then(function(response){
+          console.log("------dead update");
+          console.log(response);
+
+          });
+        }; // end 'if dead' statement
         self.getUsers();
       };
 
