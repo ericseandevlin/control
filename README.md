@@ -61,10 +61,10 @@ a game about gun control
  - a dead player's guns return to the gun store for sale at their original prices.
 
  
- -------
+-------
+
  
- 
-### MODELS
+### EXPRESS MODELS USED
  - users
 	-  username: string
 	-  password_hash: string
