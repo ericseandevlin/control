@@ -2,7 +2,7 @@
 a game about gun control
 -------
 
-LINKS
+### LINKS
 
 - Instructions:
 	- https://github.com/ga-students/wdi_lettuce_students/blob/master/schedule.md
@@ -12,34 +12,15 @@ LINKS
 	- GitHub
 		- https://github.com/ericseandevlin/control
 	- Heroku
-		- 
+		- https://control-9000.herokuapp.com/
 	- Trello link
 		- https://trello.com/b/PGN4AQg9/control
 	- Wireframes
 		- https://drive.google.com/open?id=0B_SVqrLJRiUgSXRBTzF4Ni1GSWM
 
----
-
-TIMELINE GOALS
-
-- Wed 12/2 --x--
-	- Start planning Rails app today (and others)
-- Sat 12/5
-	- Rails app finished during the weekend
-- Sun 12/6 --o--
-	- Start planning Mean App 
-- Mon 12/7
-  - final proj proposal meeting
-- Wed 12/9
-	- Mean app finished 
-- Thu 12/10
-	- Final project planning
-- Thu 12/17	
-	- Final project finished
-	
 -------
 
-Git flow:
+### Git flow:
 
 - Steps:
 	- git clone
@@ -79,7 +60,7 @@ Git flow:
 
 -------
 
-REQUIREMENTS: (--o-- open) (--x-- complete)
+### REQUIREMENTS: (--o-- open) (--x-- complete)
  - A set of user stories which describe the scope of the app.
  - Wireframes describing the user experience for your site
  - For apps using relational data, you should try to incorporate an ERD (https://goo.gl/6VyXJ5) which describes the     relationships between models. This can be both a guide to creating the app, as well as a way to keep you on task.
@@ -90,7 +71,7 @@ REQUIREMENTS: (--o-- open) (--x-- complete)
 -------
 
 
-PROGRAMS / FRAMEWORKS USED
+### PROGRAMS / FRAMEWORKS USED
  - Foundation
  	- main page layout (need to create)
  	- gun store layout http://foundation.zurb.com/templates-previews-sites-f5/store.html
@@ -100,15 +81,15 @@ PROGRAMS / FRAMEWORKS USED
 -------
 
 
-CONCEPT / LAYOUT
+### CONCEPT / LAYOUT
  - visually will be in the vein of doomsday survival blogs:http://www.shtfplan.com/   or   http://www.thesurvivalistblog.net/    or    https://www.doomsdayprep.com/
 
- - the concept is only give users choices that will allow them to experience the unfairness and desperation that leads to isolation and violence. Similar to how depression quest allows the player to understand the limitations caused bydepression experientially: http://www.depressionquest.com/
+ - the concept is to only give users choices that will allow them to experience the unfairness and desperation that leads to isolation and violence. Similar to how the game Depression Quest allows the player to understand the limitations caused by depression experientially: http://www.depressionquest.com/
  
  - PLAYERS: you are trying to protect yourself and survive.
  - OBJECTIVE: stay alive.
   
-USER STORIES
+### USER STORIES
  - all users begin with 100 points.
  - users can buy guns with their points.
  - all guns begin with initial set prices at the gun store.
@@ -123,7 +104,7 @@ USER STORIES
  -------
  
  
-MODELS
+### MODELS
  - users
 	-  username: string
 	-  password_hash: string
@@ -137,17 +118,7 @@ MODELS
  	- given_value: number
  	- damage: number
 
-
 -------
-
-
-PAGES
-
-
--------
-
-
-BUG TRACK
 
 
 
