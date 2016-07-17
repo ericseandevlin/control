@@ -20,7 +20,7 @@ a game about gun control
 
 -------
 
-### REQUIREMENTS: (--o-- open) (--x-- complete)
+### REQUIREMENTS:
  - A set of user stories which describe the scope of the app.
  - Wireframes describing the user experience for your site
  - For apps using relational data, you should try to incorporate an ERD (https://goo.gl/6VyXJ5) which describes the     relationships between models. This can be both a guide to creating the app, as well as a way to keep you on task.
